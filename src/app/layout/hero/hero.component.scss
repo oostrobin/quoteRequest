@@ -1,5 +1,5 @@
 .hero {
-    background-image: url('../../../../assets/images/alternative_bg.jpg');
+    background-image: url('../../../assets/images/alternative_bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -36,15 +36,13 @@
             
 
             button {
-                background-color: lightgreen;
-                color: black;
+                background-color: #00d665;
+                color: white;
                 letter-spacing: -0.01px;
                 font-size: 16px;
                 border-radius: 26px;
                 cursor: pointer;
-                font-weight: 500;
                 overflow: hidden;
-                line-height: 48px;
                 padding: 0 48px;
                 text-overflow: ellipsis;
                 white-space: nowrap;

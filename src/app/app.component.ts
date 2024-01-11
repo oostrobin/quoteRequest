@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { MainToolbar } from "./layout/header/header.component";
-import { FooterComponent } from './layout/footer/footer.component';
+import { HomeComponent } from './layout/pages/home/home.component';
 
 
 @Component({
@@ -10,7 +9,7 @@ import { FooterComponent } from './layout/footer/footer.component';
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
-    imports: [CommonModule, RouterOutlet, MainToolbar, FooterComponent ]
+    imports: [CommonModule, RouterOutlet, HomeComponent]
 })
 export class AppComponent {
   title = 'quoteRequest';
