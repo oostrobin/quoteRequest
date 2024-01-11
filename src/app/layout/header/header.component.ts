@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { HeroComponent } from './hero/hero.component';
 
 /**
@@ -11,6 +10,6 @@ import { HeroComponent } from './hero/hero.component';
   templateUrl: 'header.component.html',
   styleUrls: ['header.component.scss'],
   standalone: true,
-  imports: [MatToolbarModule, MatProgressBarModule, HeroComponent], 
+  imports: [MatToolbarModule, HeroComponent], 
 })
 export class MainToolbar {}
