@@ -1,0 +1,55 @@
+.hero {
+    background-image: url('../../../../assets/images/alternative_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: flex-start;
+    height: 90vh;
+
+    mat-card {
+        top: 90px;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px;
+        margin-left: 15%;
+        max-height: 420px;
+
+        mat-card-title {
+            font-weight: bold;
+            text-align: left;
+            font-size: 32px;
+            line-height: 40px;
+        }
+
+        mat-card-content {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        mat-card-actions {
+            display: flex;
+           
+            
+
+            button {
+                background-color: lightgreen;
+                color: black;
+                letter-spacing: -0.01px;
+                font-size: 16px;
+                border-radius: 26px;
+                cursor: pointer;
+                font-weight: 500;
+                overflow: hidden;
+                line-height: 48px;
+                padding: 0 48px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                transition: background-color .3s cubic-bezier(0.6, 0, 0, 1),border-color .3s cubic-bezier(0.6, 0, 0, 1),padding .3s cubic-bezier(0.6, 0, 0, 1);
+            }
+        }
+    }
+}
