@@ -7,47 +7,10 @@
     justify-content: flex-start;
     height: 90vh;
 
-    mat-card {
-        top: 90px;
-        background-color: #fff;
+    .container {
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 20px;
-        margin-left: 15%;
-        max-height: 420px;
-
-        mat-card-title {
-            font-weight: bold;
-            text-align: left;
-            font-size: 32px;
-            line-height: 40px;
-        }
-
-        mat-card-content {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        mat-card-actions {
-            display: flex;
-           
-            
-
-            button {
-                background-color: #00d665;
-                color: white;
-                letter-spacing: -0.01px;
-                font-size: 16px;
-                border-radius: 26px;
-                cursor: pointer;
-                overflow: hidden;
-                padding: 0 48px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                transition: background-color .3s cubic-bezier(0.6, 0, 0, 1),border-color .3s cubic-bezier(0.6, 0, 0, 1),padding .3s cubic-bezier(0.6, 0, 0, 1);
-            }
-        }
+        width: 100%;
+        justify-content: center;
+        align-items: center;
     }
 }

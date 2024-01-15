@@ -1,18 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+export interface AddressData {
+  street: string;
+  city: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AddressLookupService {
-  private readonly OSM_API_URL = 'https://nominatim.openstreetmap.org/search';
+  private readonly POSTCODE_API_URL = `https://postcode.tech/api/v1/postcode`;
+  private readonly POSTCODE_API_KEY = 'a1193ebb-0f32-43c5-ad57-c2edf26d5d75';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  lookupAddress(postalCode: string, houseNumber: string) {
-    const addressQuery = `${postalCode} ${houseNumber}, Netherlands`;
-    const url = `${this.OSM_API_URL}?format=jsonv2&q=${encodeURIComponent(addressQuery)}`;
+  getAddressDetails(postalCode: string, houseNumber: string) {
+    const addressQuery = `postcode=${postalCode}&number=${houseNumber}`;
+    const url = `${this.POSTCODE_API_URL}?${addressQuery}`;
 
-    return this.http.get<any[]>(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.POSTCODE_API_KEY}`,
+    });
+
+    return this.http.get<AddressData>(url, { headers });
   }
 }

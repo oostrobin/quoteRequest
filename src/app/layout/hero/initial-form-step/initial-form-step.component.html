@@ -1,0 +1,16 @@
+<form [formGroup]="addressForm">
+    <div class="form-container">
+        <mat-form-field class="full-width-input" >
+            <mat-label>Postcode</mat-label>
+            <input  matInput type="text" placeholder="Postcode" formControlName="postalCode" required >
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <mat-label>Huisnummer</mat-label>
+            <input matInput type="text" placeholder="Huisnummer" formControlName="houseNumber" required>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <mat-label>Toevoeging</mat-label>
+            <input matInput type="text" placeholder="Toevoeging" formControlName="addition">
+        </mat-form-field>
+    </div>
+</form>

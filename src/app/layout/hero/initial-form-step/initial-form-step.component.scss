@@ -1,0 +1,15 @@
+form {
+    display: flex ;
+    flex-grow: 1;
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .full-width-input {
+        width: 240px;
+    }
+}
+
+
