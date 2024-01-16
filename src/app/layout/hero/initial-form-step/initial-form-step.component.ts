@@ -41,12 +41,12 @@ export class InitialFormStepComponent {
     this.initializeForm();
     this.subscribeToFormChanges();
   }
-  
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-   private initializeForm() {
+  private initializeForm() {
     const existingForm = this.getExistingForm();
     if (existingForm) {
       this.addressForm = existingForm;
@@ -54,7 +54,6 @@ export class InitialFormStepComponent {
       this.createAndSetNewForm();
     }
   }
-
 
   private getExistingForm(): FormGroup | null {
     const existingForm = this.formStateService.sharedFormGroup;
@@ -70,20 +69,35 @@ export class InitialFormStepComponent {
 
   private buildForm(): FormGroup {
     return this.formBuilder.group({
-      postalCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6), Validators.pattern('^[0-9]{4}[A-Za-z]{2}$')]],
-      houseNumber: ['', [Validators.required, Validators.minLength(1), Validators.pattern('^[0-9]*$')]],
-      addition: ['']
+      postalCode: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(6),
+          Validators.pattern('^[0-9]{4}[A-Za-z]{2}$'),
+        ],
+      ],
+      houseNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
+      addition: [''],
     });
   }
-  
+
   private hasControls(formGroup: FormGroup): boolean {
     return formGroup && this.formStateService.hasControls(formGroup);
   }
 
-   private subscribeToFormChanges() {
-    this.addressForm.statusChanges.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => this.handleFormStatusChange());
+  private subscribeToFormChanges() {
+    this.addressForm.statusChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.handleFormStatusChange());
   }
 
   private handleFormStatusChange() {
@@ -98,7 +112,7 @@ export class InitialFormStepComponent {
   }
 
   private updateErrorService() {
-    Object.keys(this.addressForm.controls).forEach(controlName => {
+    Object.keys(this.addressForm.controls).forEach((controlName) => {
       this.processControlErrors(controlName);
     });
   }
@@ -114,6 +128,10 @@ export class InitialFormStepComponent {
   }
 
   private shouldReportErrors(control: AbstractControl | null): boolean {
-    return control !== null && control.errors !== null && (control.dirty || control.touched);
+    return (
+      control !== null &&
+      control.errors !== null &&
+      (control.dirty || control.touched)
+    );
   }
 }
