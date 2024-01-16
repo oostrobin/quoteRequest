@@ -59,7 +59,6 @@ export class InitialFormStepComponent {
         ],
       ],
       addition: [''],
-      
     });
 
     this.formStateService.setFormData(this.addressForm);
