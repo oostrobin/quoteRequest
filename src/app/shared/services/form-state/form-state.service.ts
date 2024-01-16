@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-/**
- * Service for managing the state of a form.
- */
-/**
- * Service for managing the state of a form.
- */
 @Injectable({
   providedIn: 'root',
 })
 export class FormStateService {
   private formDataSubject: BehaviorSubject<FormGroup> =
-    new BehaviorSubject<FormGroup>({} as FormGroup);
+    new BehaviorSubject<FormGroup>(new FormGroup({}));
+  initialStep: number = 1;
   private currentStepSubject: BehaviorSubject<number> =
-    new BehaviorSubject<number>(1);
-  private readonly initialStep: number = 0;
+    new BehaviorSubject<number>(this.initialStep);
 
   constructor() {}
 
+  isCurrentFormValid(): boolean {
+    const currentForm = this.formDataSubject.getValue();
+    return currentForm && currentForm.valid;
+  }
 
   /**
    * Get the observable for the current step.
@@ -34,7 +32,13 @@ export class FormStateService {
    * @param step - The current step to set.
    */
   setCurrentStep(step: number) {
-    this.currentStepSubject.next(step);
+    if (step >= this.initialStep) {
+      this.currentStepSubject.next(step);
+    } else {
+      throw new Error(
+        'Invalid step value. Step must be greater than or equal to the initial step.'
+      );
+    }
   }
 
   /**
@@ -42,7 +46,11 @@ export class FormStateService {
    * @param form - The form data to set.
    */
   setFormData(form: FormGroup) {
-    this.formDataSubject.next(form);
+    if (form instanceof FormGroup) {
+      this.formDataSubject.next(form);
+    } else {
+      throw new Error('Invalid form data. Expected instance of FormGroup.');
+    }
   }
 
   /**
@@ -57,9 +65,8 @@ export class FormStateService {
    * Reset the form data to an empty object.
    */
   resetFormData() {
-    this.formDataSubject.next({} as FormGroup);
+    this.formDataSubject.next(new FormGroup({}));
   }
-
   /**
    * Reset the current step to the initial step.
    */
@@ -79,14 +86,44 @@ export class FormStateService {
    * Go to the next step by incrementing the current step value.
    */
   nextStep() {
-    this.currentStepSubject.next(this.currentStepSubject.getValue() + 1);
+    const currentStep = this.currentStepSubject.getValue();
+    const nextStep = currentStep + 1;
+    const maxStep = this.getMaxStep();
+
+    if (nextStep <= maxStep) {
+      this.currentStepSubject.next(nextStep);
+    }
   }
 
   /**
    * Go to the previous step by decrementing the current step value.
    */
   previousStep() {
-    this.currentStepSubject.next(this.currentStepSubject.getValue() - 1);
+    const currentStep = this.currentStepSubject.getValue();
+    const previousStep = currentStep - 1;
+    const minStep = this.getMinStep();
+
+    if (previousStep >= minStep) {
+      this.currentStepSubject.next(previousStep);
+    }
+  }
+
+  /**
+   * Get the maximum step value.
+   * @returns The maximum step value.
+   */
+  private getMaxStep(): number {
+    // Add your logic to determine the maximum step value
+    return 10;
+  }
+
+  /**
+   * Get the minimum step value.
+   * @returns The minimum step value.
+   */
+  private getMinStep(): number {
+    // Add your logic to determine the minimum step value
+    return 0;
   }
 
   /**
@@ -94,6 +131,12 @@ export class FormStateService {
    * @param step - The step to go to.
    */
   goToStep(step: number) {
-    this.currentStepSubject.next(step);
+    if (step >= this.initialStep) {
+      this.currentStepSubject.next(step);
+    } else {
+      throw new Error(
+        'Invalid step value. Step must be greater than or equal to the initial step.'
+      );
+    }
   }
 }

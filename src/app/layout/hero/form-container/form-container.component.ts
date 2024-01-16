@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 // Angular Core Imports
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
@@ -42,6 +43,7 @@ export class FormContainerComponent {
   currentStep: number = INITIAL_STEP;
   isFormValid: boolean = false;
   messages: string[] = [];
+  
   private subscription: Subscription = new Subscription();
   private destroy = new Subject<void>();
 
@@ -68,6 +70,7 @@ export class FormContainerComponent {
     this.destroy.complete();
     this.subscription.unsubscribe();
   }
+
 
   private subscribeToErrors() {
     this.errorService.errors
@@ -107,6 +110,10 @@ export class FormContainerComponent {
         error: this.handleError.bind(this),
       })
     );
+  }
+
+  private checkFormValidity() {
+    this.isFormValid = this.formStateService.isCurrentFormValid();
   }
 
   private handleStepChange(step: number) {
