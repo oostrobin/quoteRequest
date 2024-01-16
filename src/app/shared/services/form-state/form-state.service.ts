@@ -25,7 +25,16 @@ export class FormStateService {
       // Update the validity BehaviorSubject
       this.formValiditySubject.next(status === 'VALID');
     });
-    console.log(this.formDataSubject)
+  }
+
+  initializeFormGroup(form: FormGroup) {
+    if(!this.formDataSubject.value) {
+      this.formDataSubject.next(form);
+    }
+  }
+
+  get sharedFormGroup() {
+    return this.formDataSubject.value;
   }
 
   get formValidityChanged() {

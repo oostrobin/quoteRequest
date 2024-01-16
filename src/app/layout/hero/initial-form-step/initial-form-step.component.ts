@@ -40,7 +40,11 @@ export class InitialFormStepComponent {
   }
 
   initializeForm() {
-    this.addressForm = this.formBuilder.group({
+    const existingForm = this.formStateService.sharedFormGroup;
+    if (existingForm.contains('postalCode')) {
+      this.addressForm = existingForm;
+    } else {
+      this.addressForm = this.formBuilder.group({
       postalCode: [
         '',
         [
@@ -62,7 +66,9 @@ export class InitialFormStepComponent {
     });
 
     this.formStateService.setFormData(this.addressForm);
-    console.log(this.formStateService.formData)
+      this.formStateService.initializeFormGroup(this.addressForm);
+    }
+
   }
 
   private subscribeToFormChanges() {
