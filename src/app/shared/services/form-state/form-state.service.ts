@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, startWith, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,14 +9,27 @@ export class FormStateService {
   private formDataSubject: BehaviorSubject<FormGroup> =
     new BehaviorSubject<FormGroup>(new FormGroup({}));
   initialStep: number = 1;
+  private formValiditySubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(this.formDataSubject.value.valid);
   private currentStepSubject: BehaviorSubject<number> =
     new BehaviorSubject<number>(this.initialStep);
 
-  constructor() {}
+  constructor() {
+    this.formDataSubject.pipe(
+      // Switch to the statusChanges observable of the current form
+      switchMap((form) => form.statusChanges.pipe(
+        // Start with the current status to ensure an initial emit
+        startWith(form.valid)
+      ))
+    ).subscribe((status) => {
+      // Update the validity BehaviorSubject
+      this.formValiditySubject.next(status === 'VALID');
+    });
+    console.log(this.formDataSubject)
+  }
 
-  isCurrentFormValid(): boolean {
-    const currentForm = this.formDataSubject.getValue();
-    return currentForm && currentForm.valid;
+  get formValidityChanged() {
+    return this.formValiditySubject.asObservable();
   }
 
   /**

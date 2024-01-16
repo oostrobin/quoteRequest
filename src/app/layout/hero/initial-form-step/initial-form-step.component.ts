@@ -10,6 +10,7 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FormStateService } from '../../../shared/services/form-state/form-state.service';
 
 @Component({
   selector: 'form-step-one',
@@ -29,7 +30,8 @@ export class InitialFormStepComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private formStateService: FormStateService
   ) {}
 
   ngOnInit() {
@@ -58,9 +60,10 @@ export class InitialFormStepComponent {
       ],
       addition: [''],
       
-    }, { updateOn: 'blur' });
+    });
 
-    
+    this.formStateService.setFormData(this.addressForm);
+    console.log(this.formStateService.formData)
   }
 
   private subscribeToFormChanges() {
