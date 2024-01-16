@@ -14,13 +14,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class FormStateService {
   private formDataSubject: BehaviorSubject<FormGroup> =
     new BehaviorSubject<FormGroup>({} as FormGroup);
-  private formValiditySubject: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
   private currentStepSubject: BehaviorSubject<number> =
     new BehaviorSubject<number>(1);
   private readonly initialStep: number = 0;
 
   constructor() {}
+
 
   /**
    * Get the observable for the current step.
@@ -59,22 +58,6 @@ export class FormStateService {
    */
   resetFormData() {
     this.formDataSubject.next({} as FormGroup);
-  }
-
-  /**
-   * Update the validity of the form.
-   * @param isValid - The validity of the form.
-   */
-  updateFormValidity(isValid: boolean) {
-    this.formValiditySubject.next(isValid);
-  }
-
-  /**
-   * Get the observable for the current form validity.
-   * @returns The observable for the current form validity.
-   */
-  get currentFormValidity(): Observable<boolean> {
-    return this.formValiditySubject.asObservable();
   }
 
   /**

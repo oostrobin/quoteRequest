@@ -1,22 +1,36 @@
+import { ErrorService } from './../../../shared/services/error-service/error.service';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import { FormStateService } from '../../../shared/services/form-state/form-state.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'form-step-one',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatCardModule ],
+  imports: [
+    FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatCardModule,
+  ],
   templateUrl: './initial-form-step.component.html',
-  styleUrl: './initial-form-step.component.scss'
+  styleUrl: './initial-form-step.component.scss',
 })
 export class InitialFormStepComponent {
-   addressForm: FormGroup = new FormGroup({});
+  addressForm: FormGroup = new FormGroup({});
 
-  constructor(private formBuilder: FormBuilder, private formStateService: FormStateService) {
-  }
+  constructor(
+    private formBuilder: FormBuilder,
+    private errorService: ErrorService
+  ) {}
 
   ngOnInit() {
     this.initializeForm();
@@ -25,27 +39,57 @@ export class InitialFormStepComponent {
 
   initializeForm() {
     this.addressForm = this.formBuilder.group({
-      postalCode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(6)]],
-      houseNumber: ['', [Validators.required, Validators.minLength(1), Validators.pattern('^[0-9]*$')]],
+      postalCode: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(6),
+          Validators.pattern('^[0-9]{4}[A-Za-z]{2}$'),
+        ],
+      ],
+      houseNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
       addition: [''],
-    });
+      
+    }, { updateOn: 'blur' });
 
-    this.formStateService.setFormData(this.addressForm);
-    this.getInititialFormData();
-  }
-
-  getInititialFormData() {
-    this.formStateService.formData.subscribe((data) => {
-      if(!data) return;
-      this.addressForm.patchValue(data);
-    });
-  }
-
-  subscribeToFormChanges() {
-    this.addressForm.valueChanges.subscribe(() => {
-      const isValid = this.addressForm.valid;
-      this.formStateService.updateFormValidity(isValid);
-    });
-  }
     
+  }
+
+  private subscribeToFormChanges() {
+    Object.keys(this.addressForm.controls).forEach((controlName) => {
+      const control = this.addressForm.get(controlName);
+      if (control) {
+        control.statusChanges.subscribe(() => {
+          if (control) {
+            const isValid = control.valid;
+            if (!isValid) {
+              this.updateErrorService();
+            } else {
+              this.errorService.removeErrorForField(controlName);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  private updateErrorService() {
+    Object.keys(this.addressForm.controls).forEach((controlName) => {
+      const control = this.addressForm.get(controlName);
+      if (control && control.errors && (control.dirty || control.touched)) {
+        const errors = control.errors ? Object.keys(control.errors) : [];
+        this.errorService.addErrorsForField(controlName, errors);
+      } else {
+        this.errorService.removeErrorForField(controlName);
+      }
+    });
+  }
 }

@@ -9,6 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './validation-error.component.scss'
 })
 export class ValidationErrorComponent {
-  @Input() message: string = 'Het formulier is niet correct ingevuld';
+  @Input() message: string = '';
   @Input() icon: string = 'error_outline';
 }
