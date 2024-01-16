@@ -41,7 +41,7 @@ export class InitialFormStepComponent {
 
   initializeForm() {
     const existingForm = this.formStateService.sharedFormGroup;
-    if (existingForm.contains('postalCode')) {
+    if (existingForm && this.hasControls(existingForm)) {
       this.addressForm = existingForm;
     } else {
       this.addressForm = this.formBuilder.group({
@@ -69,6 +69,18 @@ export class InitialFormStepComponent {
       this.formStateService.initializeFormGroup(this.addressForm);
     }
 
+  }
+
+  private checkFormGroup() {
+    const formGroup = this.formStateService.sharedFormGroup;
+    if (!formGroup && !this.hasControls(formGroup)) {
+      return false;
+    }
+    return true;
+  }
+
+  private hasControls(formGroup: FormGroup): boolean {
+    return formGroup && Object.keys(formGroup.controls).length > 0;
   }
 
   private subscribeToFormChanges() {

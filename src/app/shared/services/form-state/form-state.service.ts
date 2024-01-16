@@ -15,26 +15,39 @@ export class FormStateService {
     new BehaviorSubject<number>(this.initialStep);
 
   constructor() {
-    this.formDataSubject.pipe(
-      // Switch to the statusChanges observable of the current form
-      switchMap((form) => form.statusChanges.pipe(
-        // Start with the current status to ensure an initial emit
-        startWith(form.valid)
-      ))
-    ).subscribe((status) => {
-      // Update the validity BehaviorSubject
-      this.formValiditySubject.next(status === 'VALID');
-    });
+    this.formDataSubject
+      .pipe(
+        // Switch to the statusChanges observable of the current form
+        switchMap((form) =>
+          form.statusChanges.pipe(
+            // Start with the current status to ensure an initial emit
+            startWith(form.valid)
+          )
+        )
+      )
+      .subscribe((status) => {
+        // Update the validity BehaviorSubject
+        this.formValiditySubject.next(status === 'VALID');
+      });
   }
 
   initializeFormGroup(form: FormGroup) {
-    if(!this.formDataSubject.value) {
+    if (!this.formDataSubject.value) {
       this.formDataSubject.next(form);
     }
   }
 
   get sharedFormGroup() {
     return this.formDataSubject.value;
+  }
+
+  /**
+   * Check if the FormGroup has any controls.
+   * @param formGroup The FormGroup to check.
+   * @returns True if the FormGroup has controls, false otherwise.
+   */
+  public hasControls(formGroup: FormGroup): boolean {
+    return formGroup && Object.keys(formGroup.controls).length > 0;
   }
 
   get formValidityChanged() {
