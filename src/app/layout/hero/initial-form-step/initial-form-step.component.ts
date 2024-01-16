@@ -1,6 +1,7 @@
 import { ErrorService } from './../../../shared/services/error-service/error.service';
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -97,14 +98,22 @@ export class InitialFormStepComponent {
   }
 
   private updateErrorService() {
-    Object.keys(this.addressForm.controls).forEach((controlName) => {
-      const control = this.addressForm.get(controlName);
-      if (control && control.errors && (control.dirty || control.touched)) {
-        const errors = control.errors ? Object.keys(control.errors) : [];
-        this.errorService.addErrorsForField(controlName, errors);
-      } else {
-        this.errorService.removeErrorForField(controlName);
-      }
+    Object.keys(this.addressForm.controls).forEach(controlName => {
+      this.processControlErrors(controlName);
     });
+  }
+
+  private processControlErrors(controlName: string) {
+    const control = this.addressForm.get(controlName);
+    if (control !== null && this.shouldReportErrors(control)) {
+      const errors = Object.keys(control.errors || {});
+      this.errorService.addErrorsForField(controlName, errors);
+    } else {
+      this.errorService.removeErrorForField(controlName);
+    }
+  }
+
+  private shouldReportErrors(control: AbstractControl | null): boolean {
+    return control !== null && control.errors !== null && (control.dirty || control.touched);
   }
 }
