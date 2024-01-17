@@ -1,9 +1,13 @@
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Component, OnInit } from '@angular/core';
 import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
-import { AddressDTO, AddressLookupService } from '../../../shared/services/address-lookup.service';
+import {
+  AddressDTO,
+  AddressLookupService,
+} from '../../../shared/services/address-lookup.service';
 import { FormStateService } from '../../../shared/services/form-state/form-state.service';
 import { MatIconModule } from '@angular/material/icon';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'confirm-data-step',
@@ -17,22 +21,28 @@ export class FormConfirmationComponent implements OnInit {
 
   constructor(
     private addressLookupService: AddressLookupService,
-    private formStateService: FormStateService
+    private formStateService: FormStateService,
+    private formBuilder: FormBuilder
   ) {}
 
-   ngOnInit() {
+  ngOnInit() {
     this.getAddressDetails('1782SP', '46'); // Use appropriate postal code and house number
   }
 
-private getAddressDetails(postalCode: string, houseNumber: string) {
-  this.addressLookupService.getAddressDetails(postalCode, houseNumber)
-    .subscribe({
-      next: (addressDTO: AddressDTO) => {
-        this.address = addressDTO;
-      },
-      error: (error: any) => {
-        console.error('Error fetching address:', error);
-      }
-    });
-}
+  private getAddressDetails(postalCode: string, houseNumber: string) {
+    this.addressLookupService
+      .getAddressDetails(postalCode, houseNumber)
+      .subscribe({
+        next: (addressDTO: AddressDTO) => {
+          this.address = addressDTO;
+        },
+        error: (error: any) => {
+          console.error('Error fetching address:', error);
+        },
+      });
+  }
+
+  public goToPreviousStep() {
+    this.formStateService.previousStep();
+  }
 }

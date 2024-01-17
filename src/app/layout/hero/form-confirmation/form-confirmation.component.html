@@ -4,9 +4,9 @@
         <p>{{ address.postalCode }} {{ address.city }}</p>
     </div>
     <div class="edit-address-button">
-        <button mat-stroked-button color="secondary">Wijzig</button>
+        <button mat-stroked-button color="secondary" (click)="goToPreviousStep()"><mat-icon>edit-note</mat-icon>Wijzig dit adres</button>
     </div>
     <div class="confirm-ownership">
-        Ik ben eigenaar van deze woning
+        <mat-checkbox class="example-margin">Ik ben de eigenaar van deze woning</mat-checkbox>
     </div>
 </div>

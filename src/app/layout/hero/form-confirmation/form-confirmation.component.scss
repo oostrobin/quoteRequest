@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    .full-address-information {
+        margin-bottom: 20px;
+
+        p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #333;
+
+            
+        }
+    }
+
+    .edit-address-button {
+        margin-bottom: 20px;
+
+        button {
+            display: flex;
+            align-items: center;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: darken(#007bff, 10%);
+            }
+
+            mat-icon {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .confirm-ownership {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 20px;
+
+        mat-checkbox {
+            margin-left: -10px;
+        }
+    }
+}

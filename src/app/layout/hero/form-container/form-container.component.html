@@ -21,18 +21,9 @@
     [ngStyle]="{
       justifyContent: currentStep === 1 ? 'flex-end' : ''
     }"
-    [ngClass]="{'form-navigation': currentStep === 1, 'form-navigation_2': currentStep !== 1}"
+    [ngClass]="'form-navigation__buttons'"
   >
-    <ng-template [ngIf]="currentStep > 1"
-      ><button
-        mat-stroked-button
-        color="secondary"
-        (click)="goToPreviousStep()"
-      >
-        Vorige
-      </button></ng-template
-    >
-    <ng-template [ngIf]="currentStep > 0">
+    <ng-template [ngIf]="currentStep === 1">
       <button
         [disabled]="!isFormValid"
         mat-stroked-button
@@ -40,6 +31,11 @@
         (click)="goToNextStep()"
       >
         Volgende
+      </button>
+    </ng-template>
+    <ng-template [ngIf]="currentStep > 1">
+      <button [disabled]="!isFormValid" mat-stroked-button color="secondary" (click)="goToNextStep()">
+        Dit is mijn adres
       </button>
     </ng-template>
   </div>
