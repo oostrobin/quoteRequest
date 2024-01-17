@@ -1,18 +1,18 @@
 import { ErrorService } from './../../../shared/services/error-service/error.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormStateService } from '../../../shared/services/form-state/form-state.service';
 import { Subject, takeUntil } from 'rxjs';
+import { FORM_CONFIG, FormConfig } from './config/form-config.constant';
 
 @Component({
   selector: 'form-step-one',
@@ -27,7 +27,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './initial-form-step.component.html',
   styleUrl: './initial-form-step.component.scss',
 })
-export class InitialFormStepComponent {
+export class InitialFormStepComponent implements OnInit, OnDestroy {
   addressForm: FormGroup = new FormGroup({});
   private destroy$ = new Subject<void>();
 
@@ -68,27 +68,21 @@ export class InitialFormStepComponent {
   }
 
   private buildForm(): FormGroup {
-    return this.formBuilder.group({
-      postalCode: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(6),
-          Validators.pattern('^[0-9]{4}[A-Za-z]{2}$'),
-        ],
-      ],
-      houseNumber: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.pattern('^[0-9]*$'),
-        ],
-      ],
-      addition: [''],
-    });
+    const formGroupConfig: {[key in keyof FormConfig]?: any} = {};
+
+    for (const key in FORM_CONFIG) {
+      if (FORM_CONFIG.hasOwnProperty(key)) {
+        const controlConfig = FORM_CONFIG[key as keyof typeof FORM_CONFIG]; 
+        formGroupConfig[key] = [
+          controlConfig.initialValue,
+          controlConfig.validators
+        ];
+      }
+    }
+
+    return this.formBuilder.group(formGroupConfig);
   }
+  
 
   private hasControls(formGroup: FormGroup): boolean {
     return formGroup && this.formStateService.hasControls(formGroup);

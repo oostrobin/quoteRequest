@@ -1,1 +1,12 @@
-<p>confirm this bitch!</p>
+<div class="container" *ngIf="address">
+    <div class="full-address-information">
+        <p>{{ address.street }} {{ address.houseNumber }}</p>
+        <p>{{ address.postalCode }} {{ address.city }}</p>
+    </div>
+    <div class="edit-address-button">
+        <button mat-stroked-button color="secondary">Wijzig</button>
+    </div>
+    <div class="confirm-ownership">
+        Ik ben eigenaar van deze woning
+    </div>
+</div>

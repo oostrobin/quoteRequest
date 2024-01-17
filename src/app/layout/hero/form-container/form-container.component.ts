@@ -1,11 +1,11 @@
 // Angular Core Imports
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {  Component } from '@angular/core';
 
 // Angular Common Imports
-import { NgIf, NgStyle, NgFor } from '@angular/common';
+import { NgIf, NgStyle, NgFor, NgClass } from '@angular/common';
 
 // RxJS Imports
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 // Angular Material Imports
 import { MatButtonModule } from '@angular/material/button';
@@ -30,17 +30,16 @@ import { ErrorService } from '../../../shared/services/error-service/error.servi
     MatButtonModule,
     ValidationErrorComponent,
     NgFor,
+    NgClass
   ],
   templateUrl: './form-container.component.html',
   styleUrl: './form-container.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormContainerComponent {
   isFormValid: boolean = false;
   currentStep: number = 0;
   messages: string[] = [];
-  
-  private subscription: Subscription = new Subscription();
+
   private destroy = new Subject<void>();
 
   constructor(
@@ -49,32 +48,23 @@ export class FormContainerComponent {
   ) {}
 
   ngOnInit() {
-    this.setupSubscriptions();
+    this.subscribeToCurrentStep();
+    this.subscribeToErrors();
+    this.subscribeToFormValidity();
   }
 
   ngOnDestroy() {
-    this.teardownSubscriptions();
-  }
-
-  private setupSubscriptions() {
-    this.subscribeToCurrentStep();
-    this.subscribeToErrors();
-    this.subscribeToFormValidity()
-  }
-
-  private teardownSubscriptions() {
     this.destroy.next();
     this.destroy.complete();
-    this.subscription.unsubscribe();
   }
 
   private subscribeToFormValidity() {
-    this.subscription.add(
-      this.formStateService.formValidityChanged.subscribe(
-        isValid => this.isFormValid = isValid,
-        error => this.handleError(error)
-      )
-    );
+    this.formStateService.formValidityChanged
+      .pipe(takeUntil(this.destroy))
+      .subscribe({
+        next: (isValid) => (this.isFormValid = isValid),
+        error: (error) => this.handleError(error)
+      });
   }
 
   private subscribeToErrors() {
@@ -109,9 +99,9 @@ export class FormContainerComponent {
   }
 
   private subscribeToCurrentStep() {
-    this.subscription.add(
-      this.formStateService.currentStep.subscribe(step => this.currentStep = step)
-    );
+    this.formStateService.currentStep
+      .pipe(takeUntil(this.destroy))
+      .subscribe((step) => (this.currentStep = step));
   }
 
   private handleError(error: any) {
@@ -129,5 +119,13 @@ export class FormContainerComponent {
 
   public goToPreviousStep() {
     this.formStateService.previousStep();
+  }
+
+  public get currentStepTitle(): string | null {
+    const titles: { [key: number]: string } = {
+      1: 'Start de dakcheck',
+      2: 'Bevestig je adres',
+    };
+    return titles[this.currentStep] || null;
   }
 }

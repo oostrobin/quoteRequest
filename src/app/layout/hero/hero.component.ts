@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormStateService } from '../../shared/services/form-state/form-state.service';
 import { CardComponent } from './card/card.component';
 
 
@@ -11,8 +10,6 @@ import { CardComponent } from './card/card.component';
   styleUrl: './hero.component.scss'
 })
 export class HeroComponent {
-
-  constructor(private formStateService: FormStateService) {}
 
 
   
