@@ -1,5 +1,5 @@
 import { ErrorService } from './../../../shared/services/error-service/error.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -26,6 +26,7 @@ import { FORM_CONFIG, FormConfig } from './config/form-config.constant';
   ],
   templateUrl: './initial-form-step.component.html',
   styleUrl: './initial-form-step.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialFormStepComponent implements OnInit, OnDestroy {
   addressForm: FormGroup = new FormGroup({});
@@ -46,6 +47,7 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  
   private initializeForm() {
     const existingForm = this.getExistingForm();
     if (existingForm) {

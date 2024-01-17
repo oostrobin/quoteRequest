@@ -1,8 +1,8 @@
 // Angular Core Imports
-import {  Component } from '@angular/core';
+import {  ChangeDetectionStrategy, Component } from '@angular/core';
 
 // Angular Common Imports
-import { NgIf, NgStyle, NgFor, NgClass } from '@angular/common';
+import { NgIf, NgStyle, NgFor, NgClass, AsyncPipe } from '@angular/common';
 
 // RxJS Imports
 import { Subject, takeUntil } from 'rxjs';
@@ -30,13 +30,13 @@ import { ErrorService } from '../../../shared/services/error-service/error.servi
     MatButtonModule,
     ValidationErrorComponent,
     NgFor,
-    NgClass
+    NgClass,
+    AsyncPipe
   ],
   templateUrl: './form-container.component.html',
   styleUrl: './form-container.component.scss',
 })
 export class FormContainerComponent {
-  isFormValid: boolean = false;
   currentStep: number = 0;
   messages: string[] = [];
 
@@ -49,8 +49,9 @@ export class FormContainerComponent {
 
   ngOnInit() {
     this.subscribeToCurrentStep();
-    this.subscribeToErrors();
     this.subscribeToFormValidity();
+    this.subscribeToErrors();
+    
   }
 
   ngOnDestroy() {
@@ -62,9 +63,13 @@ export class FormContainerComponent {
     this.formStateService.formValidityChanged
       .pipe(takeUntil(this.destroy))
       .subscribe({
-        next: (isValid) => (this.isFormValid = isValid),
+        next: () => (this.isButtonDisabled()),
         error: (error) => this.handleError(error)
       });
+  }
+
+  isButtonDisabled() {
+    return this.formStateService.isFormCurrentlyValid();
   }
 
   private subscribeToErrors() {
@@ -113,7 +118,7 @@ export class FormContainerComponent {
   }
 
   public goToNextStep() {
-    if (!this.isFormValid) return;
+    
     this.formStateService.nextStep();
   }
 

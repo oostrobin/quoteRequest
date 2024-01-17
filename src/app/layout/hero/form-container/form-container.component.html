@@ -12,7 +12,7 @@
       <confirm-data-step></confirm-data-step>
     </ng-template>
   </div>
-  <ng-template [ngIf]="!isFormValid">
+  <ng-template [ngIf]="!isButtonDisabled()">
     <div class="validation-error" *ngFor="let message of messages">
       <validation-error-item [message]="message"></validation-error-item>
     </div>
@@ -25,7 +25,7 @@
   >
     <ng-template [ngIf]="currentStep === 1">
       <button
-        [disabled]="!isFormValid"
+         [disabled]="!isButtonDisabled()"
         mat-stroked-button
         color="secondary"
         (click)="goToNextStep()"
@@ -34,7 +34,7 @@
       </button>
     </ng-template>
     <ng-template [ngIf]="currentStep > 1">
-      <button [disabled]="!isFormValid" mat-stroked-button color="secondary" (click)="goToNextStep()">
+      <button  [disabled]="!isButtonDisabled()" mat-stroked-button color="secondary" (click)="goToNextStep()">
         Dit is mijn adres
       </button>
     </ng-template>

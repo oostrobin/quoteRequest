@@ -50,8 +50,20 @@ export class FormStateService {
     return formGroup && Object.keys(formGroup.controls).length > 0;
   }
 
+  /**
+   * Get the observable for form validity changes.
+   * @returns The observable for form validity changes.
+   */
   get formValidityChanged() {
     return this.formValiditySubject.asObservable();
+  }
+
+    /**
+   * Checks if the current form is valid.
+   * @returns True if the form is valid, false otherwise.
+   */
+  public isFormCurrentlyValid(): boolean {
+    return this.sharedFormGroup.valid;
   }
 
   /**
