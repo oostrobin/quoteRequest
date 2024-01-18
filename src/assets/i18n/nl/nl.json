@@ -1,0 +1,25 @@
+{
+    "nl": {
+        "required": "{{field}} is verplicht",
+        "maxlength": "{{field}} is te lang (maximum lengte: {{length}})",
+        "minlength": "{{field}} is te kort (minimum lengte: {{length}})",
+        "pattern": "{{field}} is ongeldig",
+        "match": "{{field}} komt niet overeen met {{other}}",
+        "email": "{{field}} is geen geldig e-mailadres",
+        "url": "{{field}} is geen geldige URL",
+        "number": "{{field}} moet een nummer zijn",
+        "integer": "{{field}} moet een geheel getal zijn",
+        "date": "{{field}} is geen geldige datum",
+        "min": "{{field}} moet minimaal {{min}} zijn",
+        "max": "{{field}} mag niet groter zijn dan {{max}}",
+        "list": "{{field}} is ongeldig",
+        "listMin": "{{field}} moet minimaal {{min}} items bevatten",
+        "listMax": "{{field}} mag maximaal {{max}} items bevatten",
+        "listLength": "{{field}} moet precies {{length}} items bevatten",
+        "listUnique": "{{field}} moet unieke waarden bevatten",
+        "listRequired": "{{field}} is verplicht",
+        "listPattern": "{{field}} is ongeldig",
+        "listMinLength": "{{field}} moet minimaal {{min}} tekens bevatten",
+        "listMaxLength": "{{field}} mag maximaal {{max}} tekens bevatten"
+    }
+}

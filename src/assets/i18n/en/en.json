@@ -1,0 +1,25 @@
+{
+    "en": {
+        "required": "{{field}} is required",
+        "maxlength": "{{field}} is too long (maximum length: {{length}})",
+        "minlength": "{{field}} is too short (minimum length: {{length}})",
+        "pattern": "{{field}} is invalid",
+        "match": "{{field}} does not match the {{other}}",
+        "email": "{{field}} is not a valid email address",
+        "url": "{{field}} is not a valid URL",
+        "number": "{{field}} needs to be a number",
+        "integer": "{{field}} needs to be a whole number",
+        "date": "{{field}} is not a valid date",
+        "min": "{{field}} needs to be at least {{min}}",
+        "max": "{{field}} cannot be greater than {{max}}",
+        "list": "{{field}} is invalid",
+        "listMin": "{{field}} must have at least {{min}} items",
+        "listMax": "{{field}} must have no more than {{max}} items",
+        "listLength": "{{field}} must have exactly {{length}} items",
+        "listUnique": "{{field}} must have unique values",
+        "listRequired": "{{field}} is required",
+        "listPattern": "{{field}} is invalid",
+        "listMinLength": "{{field}} must have at least {{min}} characters",
+        "listMaxLength": "{{field}} must have no more than {{max}} characters"
+    }
+}

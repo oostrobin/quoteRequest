@@ -1,3 +1,4 @@
+import { ErrorMessageService } from './../../../shared/services/error-message-service/error-message.service';
 import {  Component } from '@angular/core';
 import { NgIf, NgStyle, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
@@ -33,7 +34,8 @@ export class FormContainerComponent {
 
   constructor(
     private formStateService: FormStateService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private errorMessageService: ErrorMessageService
   ) {}
 
   ngOnInit() {
@@ -66,20 +68,27 @@ export class FormContainerComponent {
   }
 
   private handleErrors(errorMap: Map<string, string[]>) {
-    this.messages = [...errorMap.entries()].flatMap(([field, errors]) =>
-      errors.map((errorKey) => this.getErrorTranslation(errorKey, field))
-    );
-  }
+  const locale = this.errorMessageService.getCurrentLocale(); // Set the locale as needed or fetch from a global setting
+  this.messages = [...errorMap.entries()].flatMap(([field, errors]) =>
+    errors.map(errorKey => this.errorMessageService.getErrorMessage(errorKey, field, locale))
+  );
+}
 
-  private getErrorTranslation(errorKey: string, field: string): string {
-    const translations: { [key: string]: string } = {
-      required: `${field} is required`,
-      maxlength: `${field} is too long`,
-      minlength: `${field} is too short`,
-      pattern: `${field} is invalid`,
-    };
-    return translations[errorKey] || `Unknown error on ${field}`;
-  }
+  // private handleErrors(errorMap: Map<string, string[]>) {
+  //   this.messages = [...errorMap.entries()].flatMap(([field, errors]) =>
+  //     errors.map((errorKey) => this.getErrorTranslation(errorKey, field))
+  //   );
+  // }
+
+  // private getErrorTranslation(errorKey: string, field: string): string {
+  //   const translations: { [key: string]: string } = {
+  //     required: `${field} is required`,
+  //     maxlength: `${field} is too long`,
+  //     minlength: `${field} is too short`,
+  //     pattern: `${field} is invalid`,
+  //   };
+  //   return translations[errorKey] || `Unknown error on ${field}`;
+  // }
 
   public handleStepChange(step: number) {
     this.formStateService.navigateToStep(step);
