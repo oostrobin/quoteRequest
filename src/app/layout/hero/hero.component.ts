@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { CardComponent } from './card/card.component';
+import { FormContainerComponent } from './form-container/form-container.component';
 
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CardComponent],
+  imports: [FormContainerComponent],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss'
 })

@@ -3,7 +3,6 @@ import {  Component } from '@angular/core';
 import { NgIf, NgStyle, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-
 import { FormStateService } from '../../../shared/services/form-state/form-state.service';
 import { ErrorService } from '../../../shared/services/error-service/error.service';
 import { InitialFormStepComponent } from '../initial-form-step/initial-form-step.component';
