@@ -12,35 +12,28 @@ interface ErrorMessages {
 })
 export class ErrorMessageService {
   private errorMessages: any;
-  private fieldLabels: { [key: string]: string } = {
-    username: 'Username',
-    email: 'Email Address',
-    password: 'Password',
-    confirmPassword: 'Confirm Password',
-    firstName: 'First Name',
-    lastName: 'Last Name',
-    phoneNumber: 'Phone Number',
-    houseNumber: 'House Number',
-    address: 'Address',
-    city: 'City',
-    state: 'State',
-    postalCode: 'postal code',
-    country: 'Country',
-    birthdate: 'Birthdate',
-    gender: 'Gender',
-    terms: 'Terms and Conditions',
-    privacyPolicy: 'Privacy Policy',
-    companyName: 'Company Name',
-    website: 'Website URL',
-    bio: 'Biography',
-    profilePicture: 'Profile Picture',
-    currentPassword: 'Current Password',
-    newPassword: 'New Password',
-    confirmNewPassword: 'Confirm New Password',
-  };
+  private fieldLabels: { [key: string]: string } = {};
+  
 
   constructor(private http: HttpClient) {
     this.loadErrorMessages();
+    this.loadFieldLabels();
+  }
+
+   private loadFieldLabels(): void {
+    const currentLocale = this.getCurrentLocale(); // Implement this method to get current locale
+    const filePath = `/assets/i18n/fields/${currentLocale}.json`;
+
+    this.http.get<{ [key: string]: string }>(filePath).pipe(
+      catchError(() => {
+        console.error('Failed to load field labels. Falling back to default.');
+        return of({}); // Fallback to an empty object in case of an error
+      })
+    ).subscribe(labels => this.fieldLabels = labels);
+  }
+
+  public getFieldLabel(field: string): string {
+    return this.fieldLabels[field] || field; // Fallback to field name if label is not found
   }
 
   private loadErrorMessages(): void {
@@ -71,7 +64,6 @@ export class ErrorMessageService {
     locale: string,
     params: any = {}
   ): string {
-    console.log(errorKey, field, locale, params);
     const userFriendlyField = this.getUserFriendlyFieldName(field);
     const messageTemplate =
       this.errorMessages[locale]?.[errorKey] ||
@@ -88,9 +80,9 @@ export class ErrorMessageService {
   }
 
   // Format the message with given parameters
-  private formatMessage(template: string, params: any): string {
-    return Object.keys(params).reduce((message, key) => {
-      return message.replace(new RegExp(`{{${key}}}`, 'g'), params[key]);
-    }, template);
-  }
+ private formatMessage(template: string, params: any): string {
+  return Object.keys(params).reduce((currentTemplate, paramKey) => {
+    return currentTemplate.replace(new RegExp(`{{${paramKey}}}`, 'g'), params[paramKey]);
+  }, template);
+}
 }

@@ -9,6 +9,7 @@ import { ErrorService } from '../../../shared/services/error-service/error.servi
 import { InitialFormStepComponent } from '../initial-form-step/initial-form-step.component';
 import { FormConfirmationComponent } from '../form-confirmation/form-confirmation.component';
 import { ValidationErrorComponent } from '../validation-error/validation-error.component';
+import { AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-form-container',
@@ -64,31 +65,32 @@ export class FormContainerComponent {
   }
 
   private handleFormValidityChange(isValid: boolean) {
-    // Implement functionality for when form validity changes
+   return
   }
 
-  private handleErrors(errorMap: Map<string, string[]>) {
-  const locale = this.errorMessageService.getCurrentLocale(); // Set the locale as needed or fetch from a global setting
-  this.messages = [...errorMap.entries()].flatMap(([field, errors]) =>
-    errors.map(errorKey => this.errorMessageService.getErrorMessage(errorKey, field, locale))
-  );
+ private handleErrors(errorMap: Map<string, string[]>): void {
+  const locale = this.errorMessageService.getCurrentLocale(); 
+  this.messages = [...errorMap.entries()].flatMap(([field, errors]) => {
+    const control = this.formStateService.getSharedForm().get(field); // Assuming 'myForm' is your FormGroup
+    return errors.map(errorKey => {
+      const errorParams = this.getErrorParams(control, errorKey);
+      return this.errorMessageService.getErrorMessage(errorKey, field, locale, errorParams);
+    });
+  });
 }
 
-  // private handleErrors(errorMap: Map<string, string[]>) {
-  //   this.messages = [...errorMap.entries()].flatMap(([field, errors]) =>
-  //     errors.map((errorKey) => this.getErrorTranslation(errorKey, field))
-  //   );
-  // }
-
-  // private getErrorTranslation(errorKey: string, field: string): string {
-  //   const translations: { [key: string]: string } = {
-  //     required: `${field} is required`,
-  //     maxlength: `${field} is too long`,
-  //     minlength: `${field} is too short`,
-  //     pattern: `${field} is invalid`,
-  //   };
-  //   return translations[errorKey] || `Unknown error on ${field}`;
-  // }
+private getErrorParams(control: AbstractControl | null, errorKey: string): any {
+  if (!control || !control.errors || !control.errors[errorKey]) {
+    return {};
+  }
+  const error = control.errors[errorKey];
+  // Depending on the validator, the structure of 'error' can vary. 
+  // For example, for maxlength, it's { requiredLength: ..., actualLength: ... }
+  return {
+    length: error.requiredLength || error.actualLength, // For maxlength and minlength
+    // ... handle other specific parameters for different validators
+  };
+}
 
   public handleStepChange(step: number) {
     this.formStateService.navigateToStep(step);

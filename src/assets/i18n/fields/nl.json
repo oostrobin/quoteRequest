@@ -1,0 +1,16 @@
+{
+    "username": "Gebruikersnaam",
+    "email": "E-mailadres",
+    "password": "Wachtwoord",
+    "confirmPassword": "Bevestig wachtwoord",
+    "telephone": "Telefoonnummer",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "address": "Adres",
+    "houseNumber": "Huisnummer",
+    "street": "Straat",
+    "addition": "Toevoeging",
+    "city": "Stad",
+    "postalCode": "Postcode",
+    "country": "Land"
+}

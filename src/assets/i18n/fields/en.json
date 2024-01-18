@@ -1,0 +1,16 @@
+{
+    "username": "Username",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "telephone": "Telephone number",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "address": "Address",
+    "houseNumber": "House number",
+    "street": "Street",
+    "addition": "Addition",
+    "city": "City",
+    "postalCode": "Postal code",
+    "country": "Country"
+}
