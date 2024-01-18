@@ -1,35 +1,25 @@
-import { ErrorService } from './../../../shared/services/error-service/error.service';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormStateService } from '../../../shared/services/form-state/form-state.service';
+import { ErrorService } from '../../../shared/services/error-service/error.service';
 import { Subject, takeUntil } from 'rxjs';
-import { FORM_CONFIG, FormConfig } from './config/form-config.constant';
+import { FORM_CONFIG } from './config/form-config.constant';
 
 @Component({
   selector: 'form-step-one',
   standalone: true,
   imports: [
-    FormsModule,
     MatFormFieldModule,
-    ReactiveFormsModule,
     MatInputModule,
     MatCardModule,
   ],
   templateUrl: './initial-form-step.component.html',
   styleUrl: './initial-form-step.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialFormStepComponent implements OnInit, OnDestroy {
-  addressForm: FormGroup = new FormGroup({});
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -39,7 +29,7 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.initializeForm();
+    this.initializeOrGetExistingForm();
     this.subscribeToFormChanges();
   }
 
@@ -47,47 +37,26 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  get addressForm(): FormGroup {
+    return this.formStateService.form;
+  }
   
-  private initializeForm() {
-    const existingForm = this.getExistingForm();
-    if (existingForm) {
-      this.addressForm = existingForm;
-    } else {
-      this.createAndSetNewForm();
+  private initializeOrGetExistingForm() {
+    if (!this.addressForm.controls.ownership) {
+      // Assuming 'ownership' is a field in your form
+      const newForm = this.buildForm();
+      this.formStateService.setFormData(newForm);
     }
-  }
-
-  private getExistingForm(): FormGroup | null {
-    const existingForm = this.formStateService.sharedFormGroup;
-    return existingForm && this.hasControls(existingForm) ? existingForm : null;
-  }
-
-  private createAndSetNewForm() {
-    const newForm = this.buildForm();
-    this.formStateService.setFormData(newForm);
-    this.formStateService.initializeFormGroup(newForm);
-    this.addressForm = newForm;
   }
 
   private buildForm(): FormGroup {
-    const formGroupConfig: {[key in keyof FormConfig]?: any} = {};
-
-    for (const key in FORM_CONFIG) {
-      if (FORM_CONFIG.hasOwnProperty(key)) {
-        const controlConfig = FORM_CONFIG[key as keyof typeof FORM_CONFIG]; 
-        formGroupConfig[key] = [
-          controlConfig.initialValue,
-          controlConfig.validators
-        ];
-      }
-    }
+    const formGroupConfig = FORM_CONFIG.reduce((config, field) => {
+      config[field.key] = [field.initialValue, field.validators];
+      return config;
+    }, {});
 
     return this.formBuilder.group(formGroupConfig);
-  }
-  
-
-  private hasControls(formGroup: FormGroup): boolean {
-    return formGroup && this.formStateService.hasControls(formGroup);
   }
 
   private subscribeToFormChanges() {
@@ -97,25 +66,25 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
   }
 
   private handleFormStatusChange() {
-    Object.keys(this.addressForm.controls).forEach((controlName) => {
+    for (const controlName in this.addressForm.controls) {
       const control = this.addressForm.get(controlName);
       if (control && !control.valid) {
         this.updateErrorService();
       } else {
         this.errorService.removeErrorForField(controlName);
       }
-    });
+    }
   }
 
   private updateErrorService() {
-    Object.keys(this.addressForm.controls).forEach((controlName) => {
+    for (const controlName in this.addressForm.controls) {
       this.processControlErrors(controlName);
-    });
+    }
   }
 
   private processControlErrors(controlName: string) {
     const control = this.addressForm.get(controlName);
-    if (control !== null && this.shouldReportErrors(control)) {
+    if (control && this.shouldReportErrors(control)) {
       const errors = Object.keys(control.errors || {});
       this.errorService.addErrorsForField(controlName, errors);
     } else {
@@ -123,11 +92,7 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
     }
   }
 
-  private shouldReportErrors(control: AbstractControl | null): boolean {
-    return (
-      control !== null &&
-      control.errors !== null &&
-      (control.dirty || control.touched)
-    );
+  private shouldReportErrors(control: FormGroup): boolean {
+    return control && control.errors && (control.dirty || control.touched);
   }
 }

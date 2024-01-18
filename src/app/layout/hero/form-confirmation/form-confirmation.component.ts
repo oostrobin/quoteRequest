@@ -1,14 +1,11 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
-import {
-  AddressDTO,
-  AddressLookupService,
-} from '../../../shared/services/address-lookup.service';
-import { FormStateService } from '../../../shared/services/form-state/form-state.service';
 import { MatIconModule } from '@angular/material/icon';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
+import { AddressDTO, AddressLookupService } from '../../../shared/services/address-lookup.service';
+import { FormStateService } from '../../../shared/services/form-state/form-state.service';
+import { Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'confirm-data-step',
@@ -17,41 +14,42 @@ import { Subject } from 'rxjs';
   templateUrl: './form-confirmation.component.html',
   styleUrl: './form-confirmation.component.scss',
 })
-export class FormConfirmationComponent implements OnInit {
-  isFormValid: boolean = false;
+export class FormConfirmationComponent implements OnInit, OnDestroy {
   address: AddressDTO = new AddressDTO('', '', '', '');
-  destroy = new Subject<void>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private addressLookupService: AddressLookupService,
-    private formStateService: FormStateService,
-    private formBuilder: FormBuilder
+    public formStateService: FormStateService // Made public for template access
   ) { }
 
   ngOnInit() {
     this.getAddressDetails('1782SP', '46');
     this.addOwnershipControl();
   }
-  
 
-  private addOwnershipControl() {
-    const ownershipControl = this.formBuilder.control(
-      false,
-      Validators.requiredTrue
-    );
-    this.formStateService.sharedFormGroup.addControl(
-      'ownership',
-      ownershipControl
-    );
+  ngOnDestroy() {
+    this.removeOwnershipControl();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-    private removeOwnershipControl() {
-      this.formStateService.sharedFormGroup.removeControl('ownership');
+  private addOwnershipControl() {
+    if (!this.formStateService.form.get('ownership')) {
+      this.formStateService.form.addControl(
+        'ownership',
+        Validators.requiredTrue
+      );
     }
+  }
 
-    private getAddressDetails(postalCode: string, houseNumber: string) {
-    this.addressLookupService
-      .getAddressDetails(postalCode, houseNumber)
+  private removeOwnershipControl() {
+    this.formStateService.form.removeControl('ownership');
+  }
+
+  private getAddressDetails(postalCode: string, houseNumber: string) {
+    this.addressLookupService.getAddressDetails(postalCode, houseNumber)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (addressDTO: AddressDTO) => {
           this.address = addressDTO;
@@ -63,7 +61,8 @@ export class FormConfirmationComponent implements OnInit {
   }
 
   public goToPreviousStep() {
-    this.removeOwnershipControl();
     this.formStateService.previousStep();
   }
+
+  // Add any additional methods required for your component
 }

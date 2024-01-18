@@ -12,31 +12,20 @@
       <confirm-data-step></confirm-data-step>
     </ng-template>
   </div>
-  <ng-template [ngIf]="!isButtonDisabled()">
-    <div class="validation-error" *ngFor="let message of messages">
+  <div class="validation-error" *ngIf="formStateService.form.invalid">
+    <ng-container *ngFor="let message of messages">
       <validation-error-item [message]="message"></validation-error-item>
-    </div>
-  </ng-template>
-  <div
-    [ngStyle]="{
-      justifyContent: currentStep === 1 ? 'flex-end' : ''
-    }"
-    [ngClass]="'form-navigation__buttons'"
-  >
-    <ng-template [ngIf]="currentStep === 1">
-      <button
-         [disabled]="!isButtonDisabled()"
-        mat-stroked-button
-        color="secondary"
-        (click)="goToNextStep()"
-      >
-        Volgende
-      </button>
-    </ng-template>
-    <ng-template [ngIf]="currentStep > 1">
-      <button  [disabled]="!isButtonDisabled()" mat-stroked-button color="secondary" (click)="goToNextStep()">
-        Dit is mijn adres
-      </button>
-    </ng-template>
+    </ng-container>
+  </div>
+  <div [ngStyle]="{
+      justifyContent: currentStep === 1 ? 'flex-end' : 'space-between'
+    }" class="form-navigation__buttons">
+    <!-- Navigation Buttons -->
+    <button *ngIf="currentStep > 1" mat-stroked-button color="secondary" (click)="goToPreviousStep()">
+      Terug
+    </button>
+    <button [disabled]="!formStateService.form.valid" mat-stroked-button color="primary" (click)="goToNextStep()">
+      {{ currentStep === 1 ? 'Volgende' : 'Dit is mijn adres' }}
+    </button>
   </div>
 </div>
