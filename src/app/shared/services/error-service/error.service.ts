@@ -9,35 +9,37 @@ export class ErrorService {
 
   constructor() { }
 
+  private updateErrorMap(updateFunc: (errorMap: Map<string, string[]>) => void): void {
+    const errorMap = new Map(this.errorSubject.value);
+    updateFunc(errorMap);
+    this.errorSubject.next(errorMap);
+  }
+
   get errors() {
     return this.errorSubject.asObservable();
   }
 
-  addErrorsForField(field: string, errors: string[]) {
-    const errorMap = new Map(this.errorSubject.value);
-    errorMap.set(field, errors);
-    this.errorSubject.next(errorMap);
+  addError(field: string, errors: string[]): void {
+    this.updateErrorMap(errorMap => errorMap.set(field, errors));
   }
 
-  getErrorsForField(field: string) {
+  getErrors(field: string): string[] {
     return this.errorSubject.value.get(field) || [];
   }
 
-  removeErrorForField(field: string) {
-    const errorMap = new Map(this.errorSubject.value);
-    errorMap.delete(field);
-    this.errorSubject.next(errorMap);
+  removeError(field: string): void {
+    this.updateErrorMap(errorMap => errorMap.delete(field));
   }
 
-  resetErrors() {
+  resetErrors(): void {
     this.errorSubject.next(new Map());
   }
 
-  hasErrors() {
+  hasErrors(): boolean {
     return this.errorSubject.value.size > 0;
   }
 
-  hasErrorsForField(field: string) {
+  hasFieldErrors(field: string): boolean {
     return (this.errorSubject.value.get(field) || []).length > 0;
   }
 }

@@ -58,14 +58,13 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
   }
 
   private getExistingForm(): FormGroup | null {
-    const existingForm = this.formStateService.sharedFormGroup;
+    const existingForm = this.formStateService.getSharedForm();
     return existingForm && this.hasControls(existingForm) ? existingForm : null;
   }
 
   private createAndSetNewForm() {
     const newForm = this.buildForm();
-    this.formStateService.setFormData(newForm);
-    this.formStateService.initializeFormGroup(newForm);
+    this.formStateService.initializeForm(newForm);
     this.addressForm = newForm;
   }
 
@@ -87,7 +86,7 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
   
 
   private hasControls(formGroup: FormGroup): boolean {
-    return formGroup && this.formStateService.hasControls(formGroup);
+    return formGroup && this.formStateService.hasFormControls(formGroup);
   }
 
   private subscribeToFormChanges() {
@@ -102,7 +101,7 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
       if (control && !control.valid) {
         this.updateErrorService();
       } else {
-        this.errorService.removeErrorForField(controlName);
+        this.errorService.removeError(controlName);
       }
     });
   }
@@ -117,9 +116,9 @@ export class InitialFormStepComponent implements OnInit, OnDestroy {
     const control = this.addressForm.get(controlName);
     if (control !== null && this.shouldReportErrors(control)) {
       const errors = Object.keys(control.errors || {});
-      this.errorService.addErrorsForField(controlName, errors);
+      this.errorService.addError(controlName, errors);
     } else {
-      this.errorService.removeErrorForField(controlName);
+      this.errorService.removeError(controlName);
     }
   }
 

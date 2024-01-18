@@ -1,42 +1,26 @@
 <div class="container">
-  <div class="form-step-title" *ngIf="currentStepTitle">
+  <div *ngIf="currentStepTitle" class="form-step-title">
     <h1>{{ currentStepTitle }}</h1>
   </div>
   <div class="form-content">
-    <!-- Step 1 -->
-    <ng-template [ngIf]="currentStep === 1">
-      <form-step-one></form-step-one>
-    </ng-template>
-    <!-- Step 2 -->
-    <ng-template [ngIf]="currentStep === 2">
-      <confirm-data-step></confirm-data-step>
-    </ng-template>
+    <!-- Step Components -->
+    <form-step-one *ngIf="currentStep === 1"></form-step-one>
+    <confirm-data-step *ngIf="currentStep === 2"></confirm-data-step>
   </div>
-  <ng-template [ngIf]="!isButtonDisabled()">
+  <ng-container *ngIf="messages.length > 0">
     <div class="validation-error" *ngFor="let message of messages">
       <validation-error-item [message]="message"></validation-error-item>
     </div>
-  </ng-template>
-  <div
-    [ngStyle]="{
-      justifyContent: currentStep === 1 ? 'flex-end' : ''
-    }"
-    [ngClass]="'form-navigation__buttons'"
-  >
-    <ng-template [ngIf]="currentStep === 1">
-      <button
-         [disabled]="!isButtonDisabled()"
-        mat-stroked-button
-        color="secondary"
-        (click)="goToNextStep()"
-      >
-        Volgende
-      </button>
-    </ng-template>
-    <ng-template [ngIf]="currentStep > 1">
-      <button  [disabled]="!isButtonDisabled()" mat-stroked-button color="secondary" (click)="goToNextStep()">
-        Dit is mijn adres
-      </button>
-    </ng-template>
+  </ng-container>
+  <div [ngClass]="'form-navigation__buttons'" [ngStyle]="getButtonStyles()">
+    <button *ngIf="currentStep === 1" [disabled]="isButtonDisabled()" mat-stroked-button color="secondary"
+      (click)="goToNextStep()">
+      Volgende
+    </button>
+    <button *ngIf="currentStep > 1" [disabled]="isButtonDisabled()" mat-stroked-button color="secondary"
+      (click)="goToNextStep()">
+      Dit is mijn adres
+    </button>
+
   </div>
 </div>

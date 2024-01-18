@@ -1,12 +1,21 @@
+@defer {
 <div class="container" *ngIf="address">
     <div class="full-address-information">
         <p>{{ address.street }} {{ address.houseNumber }}</p>
-        <p>{{ address.postalCode }} {{ address.city }}</p>
+        <p>{{ address.postalCode | uppercase }} {{ address.city }}</p>
     </div>
     <div class="edit-address-button">
-        <button mat-stroked-button color="secondary" (click)="goToPreviousStep()"><mat-icon>edit-note</mat-icon>Wijzig dit adres</button>
+        <button mat-stroked-button color="secondary" (click)="onPreviousStep()"><mat-icon>edit-note</mat-icon>Wijzig dit adres</button>
     </div>
-    <div class="confirm-ownership">
-        <mat-checkbox formControlName="ownership" class="example-margin">Ik ben de eigenaar van deze woning</mat-checkbox>
+    <div class="confirm-ownership" [formGroup]="formGroup">
+        <mat-checkbox formControlName="ownership">Ik ben de eigenaar van deze woning</mat-checkbox>
     </div>
 </div>
+}
+
+@loading (minimum 1s) {
+    <app-spinner></app-spinner>
+}
+@error {
+    Bestaat niet
+}
