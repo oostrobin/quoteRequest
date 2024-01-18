@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormStateService } from '../../../shared/services/form-state/form-state.service';
 import { Subject, takeUntil } from 'rxjs';
 import { FORM_CONFIG, FormConfig } from './config/form-config.constant';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'form-step-one',
@@ -23,6 +24,7 @@ import { FORM_CONFIG, FormConfig } from './config/form-config.constant';
     ReactiveFormsModule,
     MatInputModule,
     MatCardModule,
+    MatIconModule
   ],
   templateUrl: './initial-form-step.component.html',
   styleUrl: './initial-form-step.component.scss',

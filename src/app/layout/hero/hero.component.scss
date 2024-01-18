@@ -6,12 +6,26 @@
   .left-column {
     flex: 1;
     padding: 20px;
-    background-color: #1be7ff;
-    min-height: 100vh;
+    background-color: #232c33;
+    min-height: 94.5vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    .container {
+      margin-left: 10%;
+        display: flex;
+        text-align: left;
+        width: 100%;
+        h1 {
+            color: #fff;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 0.1px;
+        }
+      }
   }
 
   .right-column {
