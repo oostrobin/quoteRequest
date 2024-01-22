@@ -1,8 +1,10 @@
 form {
   display: flex;
-  flex-grow: 1;
+  width: 100%;
 
   .form-container {
+    min-width: 100%;
+    max-width: 100%;
     .full-width-input {
       width: 100%;
     }

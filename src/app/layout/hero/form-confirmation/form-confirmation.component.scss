@@ -1,52 +1,60 @@
 .container {
     display: flex;
-    flex-grow: 1;
     flex-direction: column;
+    /* Changed from row to column */
+    min-width: 100%;
+    max-width: 100% ;
+}
 
-    .full-address-information {
-        margin-bottom: 20px;
+.full-address-information,
+.edit-address-button,
+.confirm-ownership {
+    width: 100%;
+    /* Ensure each child div takes full width */
+}
 
-        p {
-            margin: 0;
-            font-size: 1.1em;
-            color: #333;
+/* Rest of your CSS remains the same */
+.full-address-information {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 
-            
-        }
+    p {
+        font-size: 1.1em;
+        color: #333;
     }
+}
 
-    .edit-address-button {
-        margin-bottom: 20px;
+.edit-address-button {
+    margin-bottom: 20px;
 
-        button {
-            display: flex;
-            align-items: center;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+    button {
+        display: flex;
+        align-items: center;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
 
-            &:hover {
-                background-color: darken(#007bff, 10%);
-            }
-
-            mat-icon {
-                margin-right: 5px;
-            }
+        &:hover {
+            background-color: darken(#007bff, 10%);
         }
-    }
 
-    .confirm-ownership {
-        font-size: 0.9em;
-        color: #666;
-        margin-bottom: 20px;
-
-        mat-checkbox {
-            margin-left: -10px;
+        mat-icon {
+            margin-right: 5px;
         }
     }
 }
 
+.confirm-ownership {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 20px;
+
+    mat-checkbox {
+        margin-left: -10px;
+    }
+}

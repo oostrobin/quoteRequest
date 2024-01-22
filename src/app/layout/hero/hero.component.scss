@@ -2,30 +2,34 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  height: 100%;
+  overflow: hidden;
 
   .left-column {
     flex: 1;
     padding: 20px;
     background-color: #232c33;
-    min-height: 94.5vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100%;
     width: 100%;
+
     .container {
       margin-left: 10%;
-        display: flex;
-        text-align: left;
-        width: 100%;
-        h1 {
-            color: #fff;
-            font-size: 4.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: 0.1px;
-        }
+      display: flex;
+      text-align: left;
+      width: 100%;
+
+      h1 {
+        color: #fff;
+        font-size: 4.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        letter-spacing: 0.1px;
       }
+    }
   }
 
   .right-column {
@@ -34,11 +38,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 100%;
 
     .container {
-      display: flex;
-      align-items: center; // Center the .container vertically
+      position: absolute;
+      top: 39.5%;
     }
   }
 }

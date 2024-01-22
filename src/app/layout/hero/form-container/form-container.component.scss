@@ -1,28 +1,52 @@
 
   .container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
+    width: 100%;
 
     .form-content {
-      display: flex;
-  
+      min-width: 100%;
+      max-width: 100%;
     }
-
     .form-navigation__buttons {
-      display: flex;
       flex-direction: column;
       width: 100%;
-      align-self: flex-end;
-      align-content: flex-end;
+      
+      button {
+        padding: 10px;
+        border-radius: 4px;
+        border: solid 2px #000;
+        color: #000;
+        font-size: 18px;
+        width: 100%;
+
+        &:hover {
+          cursor: pointer;
+          background-color: #000;
+          color: #fff;
+        }
+
+        &:disabled {
+          background-color: #ccc;
+          color: #fff;
+          border: solid 2px #ccc;
+          cursor: not-allowed;
+        }
+
+        &:not(:disabled) {
+          &:hover {
+            cursor: pointer;
+            background-color: #000;
+            color: #fff;
+          }
+        }
+
+        
+      }
+    
     }
 
     .validation-error {
       display: flex;
-      flex-wrap: wrap;
-      flex-grow: 0;
-      flex-shrink: 0;
+      width: 100%;  
       margin-bottom: 20px;
     }
   }

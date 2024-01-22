@@ -16,8 +16,6 @@
       <button
         *ngIf="currentStep === 1"
         [disabled]="isButtonDisabled()"
-        mat-stroked-button
-        color="secondary"
         (click)="goToNextStep()"
       >
         Volgende
@@ -25,8 +23,6 @@
       <button
         *ngIf="currentStep > 1"
         [disabled]="isButtonDisabled()"
-        mat-stroked-button
-        color="secondary"
         (click)="goToNextStep()"
       >
         Dit is mijn adres
