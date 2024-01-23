@@ -1,13 +1,16 @@
 
   .container {
-    width: 100%;
+    width: 750px;
 
     .form-content {
-      min-width: 100%;
-      max-width: 100%;
+      width: 100%;
     }
+
+    .validation-error {
+        margin-bottom: 20px;
+      }
+    
     .form-navigation__buttons {
-      flex-direction: column;
       width: 100%;
       
       button {
@@ -44,10 +47,6 @@
     
     }
 
-    .validation-error {
-      display: flex;
-      width: 100%;  
-      margin-bottom: 20px;
-    }
+   
   }
 

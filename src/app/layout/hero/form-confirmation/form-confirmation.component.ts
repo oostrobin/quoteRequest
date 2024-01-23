@@ -6,11 +6,13 @@ import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { AddressDTO, AddressLookupService } from '../../../shared/services/address-lookup.service';
 import { FormStateService } from '../../../shared/services/form-state/form-state.service';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'confirm-data-step',
   standalone: true,
-  imports: [MatCheckboxModule, MatIconModule, UpperCasePipe, NgIf, AsyncPipe, ReactiveFormsModule, SpinnerComponent],
+  imports: [MatCheckboxModule, MatIconModule, UpperCasePipe, NgIf, AsyncPipe, ReactiveFormsModule, SpinnerComponent, MatFormFieldModule, MatInputModule],
   templateUrl: './form-confirmation.component.html',
   styleUrl: './form-confirmation.component.scss',
 })
