@@ -1,31 +1,34 @@
-  <div class="container">
-    <div *ngIf="currentStepTitle" class="form-step-title">
-      <!-- <h1>{{ currentStepTitle }}</h1> -->
-    </div>
-    <div class="form-content">
+<div class="container">
+  <div class="form-content">
+    <div class="content-wrapper">
+      <div *ngIf="currentStepTitle" class="form-step-title">
+        <!-- <h1>{{ currentStepTitle }}</h1> -->
+      </div>
       <!-- Step Components -->
       <form-step-one *ngIf="currentStep === 1"></form-step-one>
       <confirm-data-step *ngIf="currentStep === 2"></confirm-data-step>
-    </div>
-    <ng-container *ngIf="messages.length > 0">
-      <div class="validation-error" *ngFor="let message of messages">
-        <validation-error-item [message]="message"></validation-error-item>
-      </div>
-    </ng-container>
-    <div [ngClass]="'form-navigation__buttons'" [ngStyle]="getButtonStyles()">
-      <button
-        *ngIf="currentStep === 1"
-        [disabled]="isButtonDisabled()"
-        (click)="goToNextStep()"
-      >
-        Volgende
-      </button>
-      <button
-        *ngIf="currentStep > 1"
-        [disabled]="isButtonDisabled()"
-        (click)="goToNextStep()"
-      >
-        Dit is mijn adres
-      </button>
+
+      <ng-container *ngIf="messages.length > 0">
+        <div class="validation-error" *ngFor="let message of messages">
+          <validation-error-item [message]="message"></validation-error-item>
+        </div>
+      </ng-container>
     </div>
   </div>
+  <div [ngClass]="'form-navigation__buttons'" [ngStyle]="getButtonStyles()">
+    <button
+      *ngIf="currentStep === 1"
+      [disabled]="isButtonDisabled()"
+      (click)="goToNextStep()"
+    >
+      {{ isButtonDisabled() ? 'Formulier is nog niet geldig' : 'Volgende' }}
+      </button>
+    <button
+      *ngIf="currentStep > 1"
+      [disabled]="isButtonDisabled()"
+      (click)="goToNextStep()"
+    >
+      {{ isButtonDisabled() ? 'Formulier is nog niet geldig' : 'Volgende' }}
+    </button>
+  </div>
+</div>

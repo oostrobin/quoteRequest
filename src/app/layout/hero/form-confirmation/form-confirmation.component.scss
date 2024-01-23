@@ -104,7 +104,9 @@
         /* To include padding and border in width */
         margin-bottom: 20px;
 
-    mat-checkbox {
-        margin-left: -10px;
-    }
+        label {
+            user-select: none;
+            cursor: pointer;
+        }
+   
 }

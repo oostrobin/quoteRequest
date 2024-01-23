@@ -1,9 +1,19 @@
 
   .container {
+    height: 100vh;
     width: 750px;
-
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: normal;
+    align-content: normal;
     .form-content {
       width: 100%;
+      display: flex;
+      flex-grow: 1;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .validation-error {
@@ -11,9 +21,11 @@
       }
     
     .form-navigation__buttons {
+      margin-bottom: 10%;
       width: 100%;
       
       button {
+        background-color: #ef233c;
         padding: 10px;
         border-radius: 4px;
         border: solid 2px #000;
@@ -23,14 +35,14 @@
 
         &:hover {
           cursor: pointer;
-          background-color: #000;
+          background-color: #f3a5ae;
           color: #fff;
         }
 
         &:disabled {
-          background-color: #ccc;
+          background-color: #c6727c;
           color: #fff;
-          border: solid 2px #ccc;
+          border: solid 2px #6f6f6f;
           cursor: not-allowed;
         }
 
