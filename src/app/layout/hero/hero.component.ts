@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { FormContainerComponent } from './form-container/form-container.component';
 import { Subject, takeUntil } from 'rxjs';
 import { FormStateService } from '../../shared/services/form-state/form-state.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [FormContainerComponent],
+  imports: [FormContainerComponent, MatIconModule],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
 })
@@ -30,6 +31,12 @@ export class HeroComponent {
       .onCurrentStepChange()
       .pipe(takeUntil(this.destroy$))
       .subscribe((step) => (this.currentStep = step));
+  }
+
+
+  public goToPreviousStep() {
+    this.formStateService.getSharedForm().removeControl('ownership');
+    this.formStateService.regressStep();
   }
 
   public get currentStepTitle(): string {

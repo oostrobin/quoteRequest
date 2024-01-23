@@ -32,6 +32,18 @@ export class FormStateService {
     return formGroup && Object.keys(formGroup.controls).length > 0;
   }
 
+  public addFormControl(formControlName: string, formControl: any): void {
+    this.getSharedForm().addControl(formControlName, formControl);
+  }
+
+  public removeFormControl(formControlName: string): void {
+    this.getSharedForm().removeControl(formControlName);
+  }
+
+  public getFormControl(formControlName: string): any {
+    return this.getSharedForm().get(formControlName);
+  }
+
   public isFormValid(): boolean {
     return this.getSharedForm().valid;
   }
