@@ -1,0 +1,75 @@
+<mat-stepper orientation="vertical" linear #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Voer uw persoonlijke gegevens in</ng-template>
+                <p>
+                    <mat-form-field>
+                        <mat-label>Volledige naam</mat-label>
+                        <input matInput placeholder="Achternaam, Voornaam" formControlName="fullNameCtrl" required>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <mat-label>E-mail adres</mat-label>
+                        <input matInput placeholder="example@example.com" formControlName="emailCtrl" required>
+                    </mat-form-field>
+                </p>
+                <mat-form-field>
+                    <mat-label>Telefoonnummer</mat-label>
+                    <input matInput placeholder="1234567890" formControlName="phoneCtrl" required>
+                </mat-form-field>
+
+                <div>
+                    <button mat-button matStepperNext>Volgende</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Voer uw adres in</ng-template>
+                <p>
+                    <mat-form-field>
+                        <mat-label>Postcode</mat-label>
+                        <input matInput formControlName="postcodeCtrl" placeholder="Enter your postcode" required>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <mat-label>Huisnummer</mat-label>
+                        <input matInput formControlName="huisnummerCtrl" placeholder="Enter your house number" required>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field > 
+                        <mat-label>Toevoeging</mat-label>
+                        <input matInput formControlName="toevoegingCtrl" placeholder="Enter any additional information">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <mat-label>Straatnaam</mat-label>
+                        <input matInput formControlName="straatnaamCtrl" placeholder="Enter your street name" required>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <mat-label>Woonplaats</mat-label>
+                        <input matInput formControlName="woonplaatsCtrl" placeholder="Enter your city" required>
+                    </mat-form-field>
+                </p>
+
+                <div>
+                    <button mat-button matStepperPrevious>Terug</button>
+                    <button mat-button matStepperNext>Volgende</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Klaar</ng-template>
+            <p>U bent nu klaar.</p>
+            <div>
+                <button mat-button matStepperPrevious>Terug</button>
+                <button mat-button (click)="stepper.reset()">Opnieuw</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
