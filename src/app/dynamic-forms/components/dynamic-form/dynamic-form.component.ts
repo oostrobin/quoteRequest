@@ -2,7 +2,7 @@ import { FormConfig } from './../../models/form-config/form-config.interface';
 import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from '../../../shared/services/form-service/form.service';
-import { NgFor, NgIf } from '@angular/common';
+
 import { BaseInputComponent } from '../base-input/base-input.component';
 import { DynamicFormFieldComponent } from '../dynamic-form-field/dynamic-form-field.component';
 
@@ -10,12 +10,10 @@ import { DynamicFormFieldComponent } from '../dynamic-form-field/dynamic-form-fi
   selector: 'dynamic-form',
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
     BaseInputComponent,
     ReactiveFormsModule,
-    DynamicFormFieldComponent,
-  ],
+    DynamicFormFieldComponent
+],
   templateUrl: './dynamic-form.component.html',
   styleUrl: './dynamic-form.component.scss',
 })

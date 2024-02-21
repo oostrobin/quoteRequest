@@ -1,9 +1,10 @@
-<ng-container *ngFor="let formGroup of formGroups; let i = index">
+@for (formGroup of formGroups; track formGroup; let i = $index) {
   <form [formGroup]="formGroup">
-    <dynamic-form-field
-      *ngIf="i === currentStepIndex"
-      [formGroup]="formGroup"
-      [stepIndex]="i"
-    ></dynamic-form-field>
+    @if (i === currentStepIndex) {
+      <dynamic-form-field
+        [formGroup]="formGroup"
+        [stepIndex]="i"
+      ></dynamic-form-field>
+    }
   </form>
-</ng-container>
+}

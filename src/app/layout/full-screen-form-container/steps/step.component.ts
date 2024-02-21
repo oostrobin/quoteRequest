@@ -3,7 +3,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
 import { ValidationErrorComponent } from '../validation-error/validation-error.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
@@ -12,10 +12,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   imports: [
     ValidationErrorComponent,
     ReactiveFormsModule,
-    NgFor,
     MatFormFieldModule,
-    MatInputModule,
-  ],
+    MatInputModule
+],
   templateUrl: './step.component.html',
   styleUrl: './step.component.scss',
 })

@@ -1,7 +1,7 @@
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 import { FormService } from '../../../shared/services/form-service/form.service';
-import { JsonPipe, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { ValidationErrorComponent } from '../../../layout/full-screen-form-container/validation-error/validation-error.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,16 +14,12 @@ import { CheckboxInputComponent } from '../checkbox-input/checkbox-input.compone
   imports: [
     ValidationErrorComponent,
     ReactiveFormsModule,
-    NgFor,
     MatFormFieldModule,
     MatInputModule,
     BaseInputComponent,
     JsonPipe,
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
     CheckboxInputComponent
-  ],
+],
   templateUrl: './dynamic-form-field.component.html',
   styleUrl: './dynamic-form-field.component.scss',
 })
