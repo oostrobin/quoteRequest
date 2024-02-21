@@ -1,68 +1,52 @@
-import { Validators } from '@angular/forms';
-import { FormConfig } from '../../../../dynamic-forms/models/form-config/form-config.interface';
+import { ValidatorFn, Validators } from '@angular/forms';
 
-export const FORM_CONFIG: FormConfig = {
-  'Wat zijn uw adresgegevens?': {
-    postalCode: {
-      value: '',
-      validators: Validators.required,
-      label: 'Postal Code',
-      type: 'input',
-    },
-    houseNumber: {
-      value: '',
-      validators: Validators.required,
-      label: 'House Number',
-      type: 'tel',
-    },
-    addition: { value: '', label: 'Addition', type: 'input' },
+interface FormFieldConfig {
+  value: any; 
+  validators?: ValidatorFn[];
+  label: string;
+  type: 'input' | 'tel' | 'email' | 'password' | 'checkbox' | 'select' | 'textarea' | 'radio' | 'date' | 'time' | 'file' | 'number';
+  options?: { 
+    value: any;
+    label: string;
+  }[];  
+  condition?: { 
+    fieldName: string;
+    operator: '==' | '!=' | '>' | '<' | '>=' | '<=';
+    value: any; 
+  };
+}
+
+interface FormFieldGroupConfig {
+  groupName: string; 
+  fields: { 
+    [fieldName: string]: FormFieldConfig; 
+  };
+}
+
+interface FormConfigStep { 
+  stepTitle: string; // Title of the form step
+  fields: (FormFieldConfig | FormFieldGroupConfig)[]; // Array to hold both field or group
+}
+
+export type FormConfig = FormConfigStep[];
+
+
+export const FORM_CONFIG: FormConfig = [
+  {
+    stepTitle: 'Personal Information',
+    fields: [
+      {
+        value: '',
+        label: 'First Name',
+        type: 'input',
+        validators: [Validators.required]
+      }, 
+      {
+        value: '',
+        label: 'Last Name',
+        type: 'input',
+        validators: [Validators.required]
+      },
+    ]
   },
-  'Wat zijn uw persoonlijke gegevens?': {
-    firstName: {
-      value: '',
-      validators: Validators.required,
-      label: 'First Name',
-      type: 'input',
-    },
-    lastName: {
-      value: '',
-      validators: Validators.required,
-      label: 'Last Name',
-      type: 'input',
-    },
-    email: {
-      value: '',
-      validators: [Validators.required, Validators.email],
-      label: 'Email Address',
-      type: 'email',
-    },
-    phoneNumber: {
-      value: '',
-      validators: Validators.required,
-      label: 'Phone Number',
-      type: 'tel',
-    },
-  },
-  'Bedenk een wachtwoord': {
-    password: {
-      value: '',
-      validators: Validators.required,
-      label: 'Password',
-      type: 'password',
-    },
-    confirmPassword: {
-      value: '',
-      validators: Validators.required,
-      label: 'Confirm Password',
-      type: 'password',
-    },
-  },
-  'Gaat u akkoord met de voorwaarden?': {
-    termsAndConditions: {
-      value: false,
-      validators: Validators.required,
-      label: 'I agree to the terms and conditions',
-      type: 'checkbox',
-    },
-  },
-};
+];
