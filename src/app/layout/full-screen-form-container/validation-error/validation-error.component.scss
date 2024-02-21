@@ -1,0 +1,20 @@
+.validation-error-container {
+    display: flex;
+    align-items: center;
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.validation-error-icon {
+    margin-right: 10px;
+}
+
+.validation-error-message {
+    color: #f44336;
+}
+
+.validation-error-message p {
+    margin: 0;
+}

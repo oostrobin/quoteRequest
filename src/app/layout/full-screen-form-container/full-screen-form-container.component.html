@@ -1,0 +1,25 @@
+<section class="full-screen-form-container">
+  <div class="left-column">
+    <div class="back-button">
+      <button (click)="handlePreviousClick()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <div class="form-title">
+      <h1></h1>
+    </div>
+    <div class="logo-container">
+      <a href="https://www.zorgeloosbesparen.nl" target="_blank"
+        >zorgeloosbesparen.nl</a
+      >
+    </div>
+  </div>
+  <div class="right-column">
+    <div class="form-content">
+      <dynamic-form [config]="config"></dynamic-form>
+    </div>
+    <div class="form-buttons">
+      <button (click)="handleNextClick()">Volgende</button>
+    </div>
+  </div>
+</section>

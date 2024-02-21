@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label for="">{{ label }}</mat-label>
+  <input
+    [type]="type"
+    matInput
+    [formControl]="control"
+    [placeholder]="placeholder"
+    [required]="required"
+    [readonly]="readonly"
+    [pattern]="pattern"
+    [attr.aria-required]="required ? 'true' : 'false'"
+  />
+</mat-form-field>

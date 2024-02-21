@@ -1,12 +1,12 @@
 
 import { Component } from '@angular/core';
-import { HeroComponent } from '../../hero/hero.component';
-import { MainToolbar } from '../../header/header.component';
+import { FullScreenFormContainerComponent } from '../../full-screen-form-container/full-screen-form-container.component';
+import { DynamicFormComponent } from '../../../dynamic-forms/components/dynamic-form/dynamic-form.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MainToolbar, HeroComponent],
+  imports: [FullScreenFormContainerComponent, DynamicFormComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

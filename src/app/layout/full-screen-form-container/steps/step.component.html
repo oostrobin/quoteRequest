@@ -1,0 +1,7 @@
+<div *ngFor="let controlName of formControlNames" [formGroup]="formGroup">
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>{{ getLabel(controlName) }}</mat-label>
+    <input matInput [type]="getFormFieldType(controlName)" />
+  </mat-form-field>
+</div>
+<div class="error-messages"></div>

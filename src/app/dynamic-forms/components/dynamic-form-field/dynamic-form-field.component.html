@@ -1,0 +1,27 @@
+<div *ngFor="let controlName of formControlNames">
+  <ng-container [ngSwitch]="getFormFieldType(controlName)">
+    <div *ngSwitchCase="'text'">
+      <base-input
+        [label]="getLabel(controlName)"
+        [type]="getFormFieldType(controlName)"
+      ></base-input>
+    </div>
+    <div *ngSwitchCase="'email'">
+      <base-input
+        [label]="getLabel(controlName)"
+        [type]="getFormFieldType(controlName)"
+        [pattern]="emailPattern"
+      ></base-input>
+    </div>
+    <div *ngSwitchCase="'checkbox'">
+      <checkbox-input [checkboxLabel]="getLabel(controlName)"></checkbox-input>
+    </div>
+    <div *ngSwitchDefault>
+      <base-input
+        [label]="getLabel(controlName)"
+        [type]="getFormFieldType(controlName)"
+      ></base-input>
+    </div>
+  </ng-container>
+</div>
+<div class="error-messages"></div>
