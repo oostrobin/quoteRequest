@@ -1,52 +1,44 @@
-import { ValidatorFn, Validators } from '@angular/forms';
+import { ValidatorFn, Validators } from "@angular/forms";
 
-interface FormFieldConfig {
-  value: any; 
-  validators?: ValidatorFn[];
+export interface FieldConfig {
+  name: string;
   label: string;
-  type: 'input' | 'tel' | 'email' | 'password' | 'checkbox' | 'select' | 'textarea' | 'radio' | 'date' | 'time' | 'file' | 'number';
-  options?: { 
-    value: any;
-    label: string;
-  }[];  
-  condition?: { 
-    fieldName: string;
-    operator: '==' | '!=' | '>' | '<' | '>=' | '<=';
-    value: any; 
-  };
+  type: 'text' | 'email' | 'number' | 'password' | 'textarea' | 'checkbox' | 'radio' | 'select'; 
+  placeholder?: string; 
+  validators?: ValidatorFn[];
+  options?: { value: any, label: string }[]; 
 }
 
-interface FormFieldGroupConfig {
-  groupName: string; 
-  fields: { 
-    [fieldName: string]: FormFieldConfig; 
-  };
+export interface StepConfig {
+  stepTitle: string;
+  fields: FieldConfig[];
 }
 
-interface FormConfigStep { 
-  stepTitle: string; // Title of the form step
-  fields: (FormFieldConfig | FormFieldGroupConfig)[]; // Array to hold both field or group
-}
+export type FormConfig = StepConfig[];
 
-export type FormConfig = FormConfigStep[];
-
-
-export const FORM_CONFIG: FormConfig = [
+export const FORM_CONFIG : FormConfig = [
   {
-    stepTitle: 'Personal Information',
+    stepTitle: 'Address Information',
     fields: [
       {
-        value: '',
-        label: 'First Name',
-        type: 'input',
-        validators: [Validators.required]
-      }, 
-      {
-        value: '',
-        label: 'Last Name',
-        type: 'input',
+        name: 'value', 
+        label: 'Field Label', 
+        type: 'text',
+        placeholder: 'Enter Value', 
         validators: [Validators.required]
       },
     ]
   },
+  {
+    stepTitle: 'Contact Details',
+    fields: [
+      {
+        name: 'email',
+        label: 'Email',
+        type: 'email',
+        placeholder: 'Enter your email',
+        validators: [Validators.required, Validators.email]
+      }
+    ]
+  }
 ];

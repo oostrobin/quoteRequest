@@ -1,37 +1,21 @@
-@for (controlName of formControlNames; track controlName) {
-  <div>
-    @switch (getFormFieldType(controlName)) {
-      @case ('text') {
-        <div>
-          <base-input
-            [label]="getLabel(controlName)"
-            [type]="getFormFieldType(controlName)"
-          ></base-input>
-        </div>
-      }
-      @case ('email') {
-        <div>
-          <base-input
-            [label]="getLabel(controlName)"
-            [type]="getFormFieldType(controlName)"
-            [pattern]="emailPattern"
-          ></base-input>
-        </div>
-      }
-      @case ('checkbox') {
-        <div>
-          <checkbox-input [checkboxLabel]="getLabel(controlName)"></checkbox-input>
-        </div>
-      }
-      @default {
-        <div>
-          <base-input
-            [label]="getLabel(controlName)"
-            [type]="getFormFieldType(controlName)"
-          ></base-input>
-        </div>
-      }
-    }
-  </div>
-}
-<div class="error-messages"></div>
+<div [ngSwitch]="field.type">
+  <form [formGroup]="form">
+    <input *ngSwitchCase="'text'" [formControlName]="field.name" />
+    <input *ngSwitchCase="'email'" [formControlName]="field.name" />
+    <textarea
+      *ngSwitchCase="'textarea'"
+      [formControlName]="field.name"
+      ...
+    ></textarea>
+    <select *ngSwitchCase="'select'" [formControlName]="field.name"></select>
+  </form>
+</div>
+<div [ngSwitch]="field.type">
+  <div
+    *ngIf="
+      form.get(field.name)?.invalid &&
+      (form.get(field.name)?.dirty || form.get(field.name)?.touched)
+    "
+    class="error-message"
+  ></div>
+</div>

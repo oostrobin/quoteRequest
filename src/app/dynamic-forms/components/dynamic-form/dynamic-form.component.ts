@@ -1,48 +1,50 @@
-import { FormConfig } from './../../models/form-config/form-config.interface';
-import { Component, Input } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormService } from '../../../shared/services/form-service/form.service';
-
-import { BaseInputComponent } from '../base-input/base-input.component';
-import { DynamicFormFieldComponent } from '../dynamic-form-field/dynamic-form-field.component';
+import { Component, Input, OnInit } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  FormArray,
+} from '@angular/forms';
+import { FormConfig } from '../../../layout/full-screen-form-container/steps/config/form.config';
+import { NgFor, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
+import { FormMapperService } from '../../services/form-mapper.service';
+import { DynamicFieldComponent } from '../dynamic-form-field/dynamic-form-field.component';
 
 @Component({
   selector: 'dynamic-form',
+  templateUrl: './dynamic-form.component.html',
+  styleUrls: ['./dynamic-form.component.scss'],
   standalone: true,
   imports: [
-    BaseInputComponent,
     ReactiveFormsModule,
-    DynamicFormFieldComponent
-],
-  templateUrl: './dynamic-form.component.html',
-  styleUrl: './dynamic-form.component.scss',
+    NgFor,
+    NgSwitch,
+    NgSwitchCase,
+    NgIf,
+    DynamicFieldComponent,
+  ],
 })
-export class DynamicFormComponent {
-  @Input() config: FormConfig = {};
-  formGroups: FormGroup[] = [];
-  currentStepIndex: number = 0;
-  postalCodeSubscription: any;
+export class DynamicFormComponent implements OnInit {
+  @Input() config: FormConfig = [];
+  form: FormGroup = this.fb.group({});
 
-  constructor(private formService: FormService) {}
+  constructor(private fb: FormBuilder, private mapper: FormMapperService) {}
 
   ngOnInit() {
-    this.setFormConfig(this.config);
-    this.setFormGroups();
-    this.subscribeToCurrentStep();  
+    this.buildForm();
   }
 
-
-  subscribeToCurrentStep() {
-    this.formService.getCurrentStepObservable().subscribe((index) => {
-      this.currentStepIndex = index;
+  buildForm() {
+    const formGroupConfig: {
+      [key: string]: FormGroup | FormControl | FormArray;
+    } = {};
+    this.config.forEach((step) => {
+      step.fields.forEach((field) => {
+        formGroupConfig[field.name] = this.mapper.mapFieldToControl(field);
+      });
     });
-  }
 
-  setFormGroups() {
-    this.formGroups = this.formService.forms;
-  }
-
-  setFormConfig(config: FormConfig) {
-    this.formService.setFormConfig(config);
+    this.form = this.fb.group(formGroupConfig);
   }
 }
