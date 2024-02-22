@@ -7,7 +7,9 @@ export class FormMapperService {
   mapFieldToControl(field: FieldConfig): FormControl | FormGroup | FormArray { // Flexible return type
     switch (field.type) {
       case 'text':
+        return new FormControl('', field.validators || []);
       case 'email':
+        return new FormControl('', field.validators || []);
       case 'number':
         return new FormControl('', field.validators || []);
       case 'select': 

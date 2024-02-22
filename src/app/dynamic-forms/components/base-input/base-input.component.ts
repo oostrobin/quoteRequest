@@ -13,6 +13,14 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class BaseInputComponent {
   @Input() control: FormControl = new FormControl();
+
+  get value(): any {
+    return this.control.value;
+  }
+
+  set value(value: any) {
+    this.control.setValue(value);
+  }
   @Input() label: string = '';
   @Input() type: string = 'text';
   @Input() placeholder: string = '';

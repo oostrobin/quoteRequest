@@ -1,7 +1,15 @@
 <div [ngSwitch]="field.type">
   <form [formGroup]="form">
-    <input *ngSwitchCase="'text'" [formControlName]="field.name" />
-    <input *ngSwitchCase="'email'" [formControlName]="field.name" />
+    <input
+      *ngSwitchCase="'text'"
+      [formControlName]="field.name"
+      [placeholder]="field.name"
+    />
+    <input
+      *ngSwitchCase="'email'"
+      [formControlName]="field.name"
+      [placeholder]="field.name"
+    />
     <textarea
       *ngSwitchCase="'textarea'"
       [formControlName]="field.name"
